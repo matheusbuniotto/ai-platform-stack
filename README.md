@@ -3,16 +3,12 @@
 ## Main services
 ### Infrastructure
 - LiteLLM: Its the default LLM gateway/proxy, used to centralize the provider while also providing an additional layer of security with guardrails and also **some** observability.
-
 - Qdrant: Vector storage
-
 - Tika: Used in OpenWebUI for document processing and understanding, can be replaced with Docling for better performance (probably).
-
 - Postgres DB: Used as a storage for the others services, like LiteLLM.
 
 ### UI
 - N8N: Default Low-code application for LLM services and agents, you should use LiteLLM end-point as OpenAI Credentials.
-
 - OpenWebUI: Chat interface with advanced features like tools, RAG, knowledge base and code execution.
 
 ## How to configure
@@ -31,18 +27,26 @@ make ui-up # start openwebui and n8n
 make all-down # stop all services
 make infra-down # stop infra services
 make ui-down # stop ui services
-
 ```
-
 ## Accessing Services
 Once the services are up, you can access them at the following URLs:
 
-- **LiteLLM UI**: http://localhost:4000
-- **Open WebUI**: http://localhost:3000
-- **Tika**: http://localhost:9998
-- **n8n**: http://localhost:5678
-- **Qdrant HTTP API**: http://localhost:6333
-- **Qdrant gRPC API**: http://localhost:6334
+    LiteLLM UI: http://localhost:4000/ui
+
+    Open WebUI: http://localhost:3000
+
+    n8n: http://localhost:5678
+
+    Qdrant HTTP API: http://localhost:6333
+
+    Qdrant gRPC API: http://localhost:6334
+
+    Tika: http://localhost:9998
+
+#### Note on Service Startup Time
+
+>     Please be aware that after running make all-up or make ui-up, some services like Open WebUI and LiteLLM might take a minute or two to fully initialize. The OpenWebUI service includes a health check to help manage its startup, but it's good practice to wait a moment before accessing the UIs. If you see an error, please wait a short while and refresh the page.
 
 ## Recommendations
+
 You should pick a observability service (e.g. Langfuse, langsmith, datadog) and integrate it with LiteLLM for improved observability.

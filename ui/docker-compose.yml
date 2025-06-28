@@ -1,0 +1,60 @@
+services:
+  openwebui:
+    container_name: open-webui
+    image: ghcr.io/open-webui/open-webui:main
+    ports:
+      - 3000:8080
+    volumes:
+      - open-webui-local:/app/backend/data
+      - ../data/docs:/data/docs
+    environment:
+      - ENABLE_LITELLM=True
+      - LITELLM_PROXY_PORT=4000
+      - LITELLM_PROXY_HOST=litellm
+      - TIKA_SERVER_URL=http://tika:9998
+      - CONTENT_EXTRACTION_ENGINE=tika
+    env_file:
+      - ../.env
+    restart: unless-stopped
+    networks:
+      - proxy
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  n8n:
+    container_name: n8n
+    image: n8nio/n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    env_file:
+      - ../.env
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:5678/
+      - GENERIC_API_KEY=${N8N_GENERIC_API_KEY:-your_n8n_api_key}
+      - NODE_FUNCTION_ALLOW_EXTERNAL=litellm:4000
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER:-n8nuser}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD:-n8npassword}
+    networks:
+      - internal
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: true
+
+volumes:
+  open-webui-local:
+  n8n_data:

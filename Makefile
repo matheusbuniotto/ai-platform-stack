@@ -1,38 +1,31 @@
+.PHONY: all-up infra-up ui-up all-down infra-down ui-down setup
 
-.PHONY: infra-up ui-up all-up all-down infra-down ui-down
+# Sets up the required external network if it doesn't exist
+setup:
+	@docker network inspect proxy >/dev/null 2>&1 || (echo "Creating proxy network..." && docker network create proxy)
 
-infra-up:
-	docker compose up -d litellm litellm_db qdrant tika
-	@echo "Infrastructure services are starting..."
-	@echo "LiteLLM available at: http://localhost:4000"
-	@echo "Qdrant available at: http://localhost:6333 (HTTP) and http://localhost:6334 (gRPC)"
-	@echo "Tika available at: http://localhost:9998"
-	@echo "Wait some seconds for the services to be fully up..."
+# Starts all services, ensuring infrastructure is up first
+all-up: infra-up ui-up
 
+# Starts the infrastructure services
+infra-up: setup
+	@echo "Starting infrastructure services..."
+	@docker compose -f infrastructure/docker-compose.yml up -d
+
+# Starts the UI services
 ui-up:
-	docker compose up -d n8n openwebui
-	@echo "UI services are starting..."
-	@echo "N8N available at: http://localhost:5678"
-	@echo "OpenWebUI available at: http://localhost:3000"
-	@echo "Wait some seconds for the services to be fully up..."
+	@echo "Starting UI services..."
+	@docker compose -f ui/docker-compose.yml up -d
 
-all-up:
-	docker compose up -d
-	@echo "All services are starting..."
-	@echo "LiteLLM available at: http://localhost:4000"
-	@echo "Qdrant available at: http://localhost:6333 (HTTP) and http://localhost:6334 (gRPC)"
-	@echo "Tika available at: http://localhost:9998"
-	@echo "N8N available at: http://localhost:5678"
-	@echo "OpenWebUI available at: http://localhost:3000"
+# Stops all services
+all-down: ui-down infra-down
 
+# Stops the infrastructure services
 infra-down:
-	docker compose down litellm litellm_db qdrant tika
-	@echo "Infrastructure services are stopping..."
+	@echo "Stopping infrastructure services..."
+	@docker compose -f infrastructure/docker-compose.yml down
 
+# Stops the UI services
 ui-down:
-	docker compose down n8n openwebui
-	@echo "UI services are stopping..."
-
-all-down:
-	docker compose down
-	@echo "All services are stopping..."
+	@echo "Stopping UI services..."
+	@docker compose -f ui/docker-compose.yml down
