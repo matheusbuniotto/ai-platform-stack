@@ -45,8 +45,8 @@ Once the services are up, you can access them at the following URLs:
 
 #### Note on Service Startup Time
 
->     Please be aware that after running make all-up or make ui-up, some services like Open WebUI and LiteLLM might take a minute or two to fully initialize. The OpenWebUI service includes a health check to help manage its startup, but it's good practice to wait a moment before accessing the UIs. If you see an error, please wait a short while and refresh the page.
+    Please be aware that after running make all-up or make ui-up, some services like Open WebUI and LiteLLM might take a minute or two to fully initialize. The OpenWebUI service includes a health check to help manage its startup, but it's good practice to wait a moment before accessing the UIs. If you see an error, please wait a short while and refresh the page.
 
 ## Recommendations
 
-You should pick a observability service (e.g. Langfuse, langsmith, datadog) and integrate it with LiteLLM for improved observability.
+You should pick a observability service (e.g. Langfuse, langsmith, datadog) and integrate it with LiteLLM for improved observability. If security is a concern, please define guardrails in the LiteLLM gateway.
