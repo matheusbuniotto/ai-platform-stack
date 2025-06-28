@@ -20,36 +20,17 @@ model_list:
 
 
     # OpenAI : https://platform.openai.com/api-keys
-    - model_name: gpt-4o-mini
+    - model_name: GPT 4o Mini
       litellm_params:
         model: openai/gpt-4o-mini
         api_key: os.environ/OPENAI_API_KEY
         drop_params: true
     
-    - model_name: gpt-4.1-nano
+    - model_name: GPT 4.1 Nano
       litellm_params:
         model: openai/gpt-4.1-nano
         api_key: os.environ/OPENAI_API_KEY
         drop_params: true
-
-
-    # # Github Models : https://github.com/marketplace/models
-    # - model_name: github/gpt-4o-mini
-    #   litellm_params:
-    #     model: github/gpt-4o-mini
-    #     api_key: os.environ/GITHUB_API_KEY
-    #     drop_params: true
-  
-    # # AWS Bedrock : https://aws.amazon.com/bedrock/
-    # - model_name: bedrock/*
-    #   litellm_params:
-    #     model: bedrock/*
-    #     aws_region_name: os.environ/AWS_REGION_NAME
-    #     aws_access_key_id: os.environ/AWS_ACCESS_KEY_ID
-    #     aws_secret_access_key: os.environ/AWS_SECRET_ACCESS_KEY
-    #     drop_params: true
-    #     modify_params: true
-  
 
     # Openrouter : https://openrouter.ai/settings/keys
     - model_name: openrouter/*
@@ -57,7 +38,7 @@ model_list:
         model: openrouter/*
         api_key: os.environ/OPENROUTER_API_KEY
 
-
+    ## Other services example
     # GROQ CLOUD : https://console.groq.com/keys
     # - model_name: groq/*
     #   litellm_params:
@@ -66,6 +47,8 @@ model_list:
     #     api_key: os.environ/GROQ_API_KEY
     #     drop_params: True
 
+router_settings:
+  fallbacks: [{"gpt-4.1-nano": ["gpt-4o-mini"]}, {"gemini/gemini-2.0-flash-lite": ["gpt-4.1-nano"]}]
 
 general_settings:
     forward_openai_org_id: true

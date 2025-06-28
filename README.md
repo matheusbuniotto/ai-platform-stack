@@ -23,7 +23,26 @@ First, you will need to configure your .env file. An example is provided via .en
 You can configure your LLM gateway with the litellm-config, you can include/remove models, define teams, tags, budget and also set some guardrails/security layer using some service or create it by yourself with CustomGuardrail class in LiteLLM.
 
 ## Running
+```bash
+make all-up # start all services
+make infra-up # start infra services
+make ui-up # start openwebui and n8n
 
+make all-down # stop all services
+make infra-down # stop infra services
+make ui-down # stop ui services
+
+```
+
+## Accessing Services
+Once the services are up, you can access them at the following URLs:
+
+- **LiteLLM UI**: http://localhost:4000
+- **Open WebUI**: http://localhost:3000
+- **Tika**: http://localhost:9998
+- **n8n**: http://localhost:5678
+- **Qdrant HTTP API**: http://localhost:6333
+- **Qdrant gRPC API**: http://localhost:6334
 
 ## Recommendations
-You should pick a observability service like Langfuse, Langsmith, Datadog or Logfire. As this definition can be quite easy to implement with some simple lines of coding inside the application, 
+You should pick a observability service (e.g. Langfuse, langsmith, datadog) and integrate it with LiteLLM for improved observability.

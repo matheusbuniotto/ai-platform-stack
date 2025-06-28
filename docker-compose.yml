@@ -12,6 +12,7 @@ services:
     networks:
       - proxy
       - internal
+    # Access LiteLLM UI at http://localhost:4000
     environment:
       - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-sk-1234}
       - DATABASE_URL=postgresql://${LITELLM_POSTGRES_USER:-postgres}:${LITELLM_POSTGRES_PASSWORD:-postgres}@${LITELLM_POSTGRES_HOST:-litellm_db}:${LITELLM_POSTGRES_PORT:-5432}/${LITELLM_POSTGRES_DATABASE:-postgres}
@@ -49,12 +50,13 @@ services:
     volumes:
       - open-webui-local:/app/backend/data
       - ./data/docs:/data/docs
+    # Access Open WebUI at http://localhost:3000
     environment:
       - OPENAI_API_BASE_URLS=${OPENAI_API_BASE_URLS}
       - OPENAI_API_KEYS=${OPENAI_API_KEYS}
       - ENABLE_LITELLM=True
       - LITELLM_PROXY_PORT=4000
-      - LITELLM_PROXY_HOST=127.0.0.1
+      - LITELLM_PROXY_HOST=litellm
       ## apache tika
       - TIKA_SERVER_URL=http://tika:9998
       - CONTENT_EXTRACTION_ENGINE=tika
@@ -64,6 +66,12 @@ services:
     networks:
       - proxy
       - internal
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
 
   tika:
     image: apache/tika:latest-full
@@ -73,6 +81,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
+    # Access Tika at http://localhost:9998
 
   n8n:
     container_name: n8n
@@ -82,6 +91,7 @@ services:
       - "5678:5678"
     volumes:
       - n8n_data:/home/node/.n8n
+    # Access n8n at http://localhost:5678
     environment:
       - N8N_HOST=localhost
       - N8N_PORT=5678
@@ -107,6 +117,8 @@ services:
       - qdrant_data:/qdrant/data
     networks:
       - internal
+    # Access Qdrant HTTP API at http://localhost:6333
+    # Access Qdrant gRPC API at http://localhost:6334
 
 networks:
   proxy:
