@@ -1,4 +1,5 @@
-# IA Platform Starter Stack
+# AI Platform Starter Stack
+![AI Platform](https://github.com/user-attachments/assets/40eaacb4-a30c-455f-a035-bfce2b41d5af)
 
 ## Main services
 ### Infrastructure
