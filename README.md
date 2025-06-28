@@ -15,6 +15,10 @@
 ### Env variables
 First, you will need to configure your .env file. An example is provided via .env-example, you need to replace the KEYS and set **YOUR** secrets for the services. As the default embedding model is Gemini, you will need to set a Gemini API Key at least, but you can use another embedding by changing it on litellm-config file.
 
+```bash
+cp .env-example .env
+```
+
 ### LiteLLM Configs
 You can configure your LLM gateway with the litellm-config, you can include/remove models, define teams, tags, budget and also set some guardrails/security layer using some service or create it by yourself with CustomGuardrail class in LiteLLM.
 
@@ -47,6 +51,11 @@ Once the services are up, you can access them at the following URLs:
 
     Please be aware that after running make all-up or make ui-up, some services like Open WebUI and LiteLLM might take a minute or two to fully initialize. The OpenWebUI service includes a health check to help manage its startup, but it's good practice to wait a moment before accessing the UIs. If you see an error, please wait a short while and refresh the page.
 
-## Recommendations
+## Note on using LiteLLM on N8N
+LiteLLM gateway/proxy isnt fully supported in N8N, you will need to specify an OpenAI Credential with your liteLLM masterkey and litellm endpoint (e.g. http://litellm:4000), only GPT models will shown.
 
+### Qdrant and N8N
+Qdrant will be avaliable at http://qdrant:6333 (local), you can use it normaly in N8N creating a new credential for this tool with the given url and your defined key (default to sk-1234)
+
+## Recommendations
 You should pick a observability service (e.g. Langfuse, langsmith, datadog) and integrate it with LiteLLM for improved observability. If security is a concern, please define guardrails in the LiteLLM gateway.

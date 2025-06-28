@@ -57,6 +57,7 @@ services:
     volumes:
       - qdrant_data:/qdrant/data
     networks:
+      - proxy
       - internal
 
 networks:
