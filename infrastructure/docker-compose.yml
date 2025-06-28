@@ -45,6 +45,7 @@ services:
       - "9998:9998"
     restart: unless-stopped
     networks:
+      - proxy
       - internal
 
   qdrant:
