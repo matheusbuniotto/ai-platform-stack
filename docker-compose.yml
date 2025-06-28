@@ -92,6 +92,19 @@ services:
       - N8N_BASIC_AUTH_ACTIVE=true
       - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER:-n8nuser}
       - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD:-n8npassword}
+      
+    networks:
+      - internal
+
+  qdrant:
+    container_name: qdrant
+    image: qdrant/qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333" # HTTP API
+      - "6334:6334" # gRPC API
+    volumes:
+      - qdrant_data:/qdrant/data
     networks:
       - internal
 
@@ -104,3 +117,4 @@ volumes:
   postgres_data:
   open-webui-local:
   n8n_data:
+  qdrant_data:

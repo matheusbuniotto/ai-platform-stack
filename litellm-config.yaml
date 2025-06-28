@@ -1,11 +1,11 @@
 model_list:
     # GEMINI : https://aistudio.google.com/apikey
-    - model_name: gemini/*
+    - model_name: Gemini Flash Lite 2.0
       litellm_params:
-        model: gemini/*
+        model: gemini/gemini-2.0-flash-lite
         api_key: os.environ/GEMINI_API_KEY
-        rpm: 15
-        tpm: 1000000
+        rpm: 10
+        tpm: 100000
         drop_params: true # Just drop_params when calling specific models
         modify_params: true # to solve the problem with cline plugin in vscode
   
@@ -14,35 +14,41 @@ model_list:
       litellm_params:
         model: gemini/text-embedding-004
         api_key: os.environ/GEMINI_API_KEY
-        rpm: 15
-        tpm: 1000000
+        rpm: 10
+        tpm: 100000
         drop_params: true # Just drop_params when calling specific models
 
 
     # OpenAI : https://platform.openai.com/api-keys
-    - model_name: openai/*
+    - model_name: gpt-4o-mini
       litellm_params:
-        model: openai/*
+        model: openai/gpt-4o-mini
+        api_key: os.environ/OPENAI_API_KEY
+        drop_params: true
+    
+    - model_name: gpt-4.1-nano
+      litellm_params:
+        model: openai/gpt-4.1-nano
         api_key: os.environ/OPENAI_API_KEY
         drop_params: true
 
 
-    # Github Models : https://github.com/marketplace/models
-    - model_name: github/gpt-4o-mini
-      litellm_params:
-        model: github/gpt-4o-mini
-        api_key: os.environ/GITHUB_API_KEY
-        drop_params: true
+    # # Github Models : https://github.com/marketplace/models
+    # - model_name: github/gpt-4o-mini
+    #   litellm_params:
+    #     model: github/gpt-4o-mini
+    #     api_key: os.environ/GITHUB_API_KEY
+    #     drop_params: true
   
-    # AWS Bedrock : https://aws.amazon.com/bedrock/
-    - model_name: bedrock/*
-      litellm_params:
-        model: bedrock/*
-        aws_region_name: os.environ/AWS_REGION_NAME
-        aws_access_key_id: os.environ/AWS_ACCESS_KEY_ID
-        aws_secret_access_key: os.environ/AWS_SECRET_ACCESS_KEY
-        drop_params: true
-        modify_params: true
+    # # AWS Bedrock : https://aws.amazon.com/bedrock/
+    # - model_name: bedrock/*
+    #   litellm_params:
+    #     model: bedrock/*
+    #     aws_region_name: os.environ/AWS_REGION_NAME
+    #     aws_access_key_id: os.environ/AWS_ACCESS_KEY_ID
+    #     aws_secret_access_key: os.environ/AWS_SECRET_ACCESS_KEY
+    #     drop_params: true
+    #     modify_params: true
   
 
     # Openrouter : https://openrouter.ai/settings/keys
@@ -52,53 +58,13 @@ model_list:
         api_key: os.environ/OPENROUTER_API_KEY
 
 
-    # Cohere : https://dashboard.cohere.com/api-keys
-    - model_name: cohere_chat/*
-      litellm_params:
-        model: cohere_chat/*
-        api_key: os.environ/COHERE_API_KEY
-        rpm: 20
-        tpm: 1000
-        drop_params: true
-        modify_params: true
-        ## all endpoints are limited to 1k calls per month
-
-
-     # xAI - grok : https://console.x.ai/
-    - model_name: xai/*
-      litellm_params:
-        model: xai/*
-        api_key: os.environ/XAI_API_KEY
-        modify_params: true
-        drop_params: true
-
-    # MISTRAL LLM MODEL - https://console.mistral.ai/api-keys
-    - model_name: mistral/*
-      litellm_params:
-        model: mistral/*
-        api_key: os.environ/MISTRAL_API_KEY
-        rpm: 60
-        tpm: 500000
-        drop_params: true
-        # modify_params: true
-
-
-    # Codestral - https://console.mistral.ai/api-keys
-    - model_name: codestral/*
-      litellm_params:
-        model: codestral/*
-        api_key: os.environ/CODESTRAL_API_KEY
-        rpm: 30
-        drop_params: true
-
-
     # GROQ CLOUD : https://console.groq.com/keys
-    - model_name: groq/*
-      litellm_params:
-        model: groq/*
-        api_base: https://api.groq.com/openai/v1
-        api_key: os.environ/GROQ_API_KEY
-        drop_params: True
+    # - model_name: groq/*
+    #   litellm_params:
+    #     model: groq/*
+    #     api_base: https://api.groq.com/openai/v1
+    #     api_key: os.environ/GROQ_API_KEY
+    #     drop_params: True
 
 
 general_settings:
